@@ -6,136 +6,32 @@ using namespace std;
 class Solution
 {
 	public:
-	//Function to return list containing vertices in Topological order.
-	 vector<int> topoSort(int V, vector<int> adj[]) 
-
- {
-
-     // code here
-     vector<int>ind(V,0);
-     for(int i=0;i<V;i++){
-         for(auto it:adj[i]){
-             ind[it]++;
-         }
-     }
-     queue<int>q;
-     for(int i=0;i<V;i++){
-         if(ind[i]==0){
-             q.push(i);
-         }
-     }
-     vector<int>res;
-     while(q.size()!=0){
-         int temp=q.front();
-         q.pop();
-         res.push_back(temp);
-         for(auto it:adj[temp]){
-             ind[it]--;
-             if(ind[it]==0){
-                 q.push(it);
-             }
-         }
-     }
-     return res;
-     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //  vector<int>vis(V,0);
-
-    //  stack<int>st;
-
-    //  for(int i=0; i<V; i++){
-
-    //      if(!vis[i])dfs(i, adj, vis, st);
-
-    //  }
-
-    //  vector<int>ans;
-
-    //  while(!st.empty()){
-
-    //      ans.push_back(st.top());
-
-    //      st.pop();
-
-    //  }
-
-    //  return ans;
-    
-    //khan' algo
-//     vector<int>indegree(V,0);
-//     for(int i=0;i<V;i++){
-//             for(auto it:adj[i]){
-//                 indegree[it]++;
-//             }
-//     }
-//     queue<int>q;
-//     for(int i=0;i<V;i++){
-//         if(indegree[i]==0)q.push(i);
-//     }
-//     vector<int>res;
-//     while(q.size()!=0){
-//         int t=q.front();
-//         q.pop();
-//         res.push_back(t);
-//         for(int it:adj[t]){
-//             indegree[it]--;
-//             if(indegree[it]==0)q.push(it);
-//         }
-//     }
-//     return res;
-
-
- }
-
-    private:
-
-        void dfs(int i, vector<int> adj[], vector<int>&vis, stack<int>&st){
-
-            vis[i]=1;
-
-            for(auto it: adj[i]){
-
-                if(!vis[it])dfs(it, adj, vis, st);   
-
-            }
-
-            st.push(i);
-
-        }
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    vector<int>ind(V,0);
+	    for(int i=0;i<V;i++){
+	        for(auto it:adj[i]){
+	            ind[it]++;
+	        }
+	    }
+	    queue<int>q;
+	    for(int i=0;i<V;i++){
+	        if(ind[i]==0)q.push(i);
+	    }
+	    vector<int>res;
+	    while(q.size()){
+	        int temp=q.front();
+	        q.pop();
+	        res.push_back(temp);
+	        for(auto it:adj[temp]){
+	            ind[it]--;
+	            if(ind[it]==0)q.push(it);
+	        }
+	    }
+	    return res;
+	    // code here
+	}
 };
 
 //{ Driver Code Starts.
