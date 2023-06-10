@@ -7,31 +7,33 @@ class Solution {
 public:
 	bool isBipartite(int V, vector<int>adj[]){
 	    // Code here
-	    vector<int> col(V, -1); // Initialize with -1
-        queue<int> q;
-
-        for (int i = 0; i < V; i++) { // Iterate over all nodes
-            if (col[i] == -1) { // If the node is uncolored
-                q.push(i);
-                col[i] = 0; // Assign color 0 to the node
-
-                while (!q.empty()) {
-                    int temp = q.front();
-                    q.pop();
-
-                    for (int it : adj[temp]) {
-                        if (col[it] == -1) { // If the neighbor is uncolored
-                            col[it] = 1 - col[temp]; // Assign the opposite color of the current node
-                            q.push(it);
-                        } else if (col[it] == col[temp]) { // If the neighbor has the same color as the current node
-                            return false; // Not bipartite
-                        }
-                    }
-                }
-            }
-        }
-
-        return true;
+	    
+	    vector<int>vis(V,-1);
+	    
+	    for(int i=0;i<V;i++){
+	        if(vis[i]==-1){
+	            queue<pair<int,int>>q;
+	        vis[i]=1;
+	    q.push({i,1});
+	    while(q.size()){
+	        int node=q.front().first;
+	        int col=q.front().second;q.pop();
+	        for(auto it:adj[node]){
+	            if(vis[it]==-1){
+	                
+	                vis[it]=(!col);
+	                q.push({it,!col});
+	            }else{
+	                if(vis[node]==vis[it])return false;
+	            }
+	        }
+	    }
+	        }
+	        
+	    }
+	    
+	    return true;
+	    
 	}
 
 };
