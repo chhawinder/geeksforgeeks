@@ -8,13 +8,16 @@ class Solution{
     long long findMinDiff(vector<long long> a, long long n, long long m){
     //code
     sort(a.begin(),a.end());
-    int i=0,j=m-1;
-    int mn=INT_MAX;
-    while(j<a.size()){
-        int d=a[j]-a[i];
-        mn=min(mn,d);
-        i++;j++;
-    }return mn;
+    int mn=a[0];
+    int mx=a[m-1];
+    int ans=mx-mn;
+    int i=1,j=m;
+    while(j<n){
+        int k=a[j]-a[i];
+        ans=min(ans,k);i++;j++;
+    }
+    return ans;
+    
     }   
 };
 
