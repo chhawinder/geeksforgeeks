@@ -9,23 +9,20 @@ public:
     vector<int> singleNumber(vector<int> nums) 
     {
         // Code here.
-        int aXorb = 0;  // the result of a xor b;
-    for (auto item : nums) aXorb ^= item;
-    int lastBit = (aXorb & (~aXorb + 1)) ;  // the last bit that a diffs b
-    int intA = 0, intB = 0;
-    for (auto item : nums) {
-        // based on the last bit, group the items into groupA(include a) and groupB
-        if (item & lastBit){
-            intA = intA ^ item;
+        set<int>s;
+        for(auto it:nums){
+            if(s.find(it)==s.end()){
+                s.insert(it);
+            }else{
+                s.erase(it);
+            }
         }
-        
-        else intB = intB ^ item;
-    }
-   vector<int>res;
-   res.push_back(intA);
-   res.push_back(intB);
-   sort(res.begin(),res.end());
-   return res;
+        vector<int>res;
+        for(auto it:s){
+            res.push_back(it);
+        }
+        sort(res.begin(),res.end());
+        return res;
     }
 };
 
