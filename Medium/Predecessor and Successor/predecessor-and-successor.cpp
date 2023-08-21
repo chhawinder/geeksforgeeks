@@ -39,40 +39,43 @@ struct Node
 class Solution
 {
     public:
-    void inorder(Node *root, vector<Node*>&temp)
-    {
-        if(root)
-        {
-            inorder(root->left,temp);
-            temp.push_back(root);
-            inorder(root->right,temp);
-        }
+    void inorder(vector<Node*>&ino,Node*root){
+        if(root==nullptr)return ;
+        inorder(ino,root->left);
+        ino.push_back(root);
+        inorder(ino,root->right);
+        return ;
+        
+        
     }
     void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
     {
         // Your code goes here
-        vector<Node*>temp;
-        inorder(root,temp);
+        vector<Node*>ino;
+        inorder(ino,root);
+        int i=0;
         
-        pre=NULL;
-        for(int i=0;i<temp.size();i++)
-        {
-            if(temp[i]->key>=key)
-            {
-                break;
+        for(i=0;i<ino.size();i++){
+            if(key==ino[i]->key){
+                if(i!=0)
+                pre=ino[i-1];
+                if(i!=ino.size()-1)
+                suc=ino[i+1];
+                return ;
             }
-            pre=temp[i];
-        }
-        
-        suc=NULL;
-        for(int i=temp.size()-1;i>=0;i--)
-        {
-            if(temp[i]->key<=key)
-            {
-                break;
+            if(key<ino[i]->key){
+                if(i==0){
+                    suc=ino[i];return;
+                }
+                 pre=ino[i-1];
+                 suc=ino[i];
+                 return ;
+                
+            
+                
             }
-            suc=temp[i];
         }
+        pre=ino[ino.size()-1];
         
     }
 };
