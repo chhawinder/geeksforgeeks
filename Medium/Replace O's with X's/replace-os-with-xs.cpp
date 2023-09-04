@@ -9,37 +9,52 @@ using namespace std;
 
 class Solution{
 public:
- void dfs(vector<vector<char>>& image, int sr, int sc,vector<vector<int>>&vis){
-        vis[sr][sc]=1;
-     
-        int dx[]={0,0,-1,1};
-        int dy[]={-1,1,0,0};
-        for(int i=0;i<4;i++){
-            int nr=sr+dx[i];
-            int nc=sc+dy[i];
-            if(nr<0||nc<0||nr>=image.size()||nc>=image[0].size())continue;
-            if(vis[nr][nc]==0&&image[nr][nc]=='O')dfs(image,nr,nc,vis);
-        }
-    }
-    vector<vector<char>> fill(int n, int m, vector<vector<char>> board)
+    vector<vector<char>> fill(int n, int m, vector<vector<char>> mat)
     {
         // code here
-   
-        vector<vector<int>>vis(n,vector<int>(m,0));
-        for(int i=0;i<n;i++){
-            if(board[i][0]=='O'&&vis[i][0]==0)dfs(board,i,0,vis);
-            if(board[i][m-1]=='O'&&vis[i][m-1]==0)dfs(board,i,m-1,vis);
-        }
+        vector<vector<char>>res(n,vector<char>(m,'X'));
+        queue<pair<int,int>>q;
         for(int i=0;i<m;i++){
-            if(board[0][i]=='O'&&vis[0][i]==0)dfs(board,0,i,vis);
-            if(board[n-1][i]=='O'&&vis[n-1][i]==0)dfs(board,n-1,i,vis);
-        }
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(vis[i][j]==0)board[i][j]='X';
+            if(mat[0][i]=='O'){
+                q.push({0,i});
+                res[0][i]='O';
             }
         }
-        return board;
+        for(int i=0;i<n;i++){
+            if(mat[i][0]=='O'){
+                q.push({i,0});
+                res[i][0]='O';
+            }
+        }
+        for(int i=0;i<n;i++){
+    if(mat[i][m-1]=='O'){
+        q.push({i, m-1}); // Push the correct column 'm-1'
+        res[i][m-1] = 'O'; // Update the correct column 'm-1'
+    }
+}
+
+for(int i=0;i<m;i++){
+    if(mat[n-1][i]=='O'){
+        q.push({n-1, i}); // Push the correct row 'n-1'
+        res[n-1][i] = 'O'; // Update the correct row 'n-1'
+    }
+}
+        while(q.size()){
+            int r=q.front().first;
+            int c=q.front().second;q.pop();
+            int dx[]={0,0,-1,1};
+            int dy[]={1,-1,0,0};
+            for(int k=0;k<4;k++){
+                int nr=r+dx[k];
+                int nc=c+dy[k];
+                if(nr<0||nc<0||nr>=n||nc>=m)continue;
+                if(mat[nr][nc]=='O'&&res[nr][nc]=='X'){
+                    res[nr][nc]='O';
+                    q.push({nr,nc});
+                }
+            }
+        }
+        return res;
     }
 };
 
