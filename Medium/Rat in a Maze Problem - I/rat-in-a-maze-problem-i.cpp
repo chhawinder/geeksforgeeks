@@ -10,54 +10,71 @@ using namespace std;
 
 class Solution{
     public:
-    void solve(vector<string>&ans,string out,vector<vector<int>> &m, int n,int x,int y){
-        if(x<0||x>=n||y<0||y>=n||m[x][y]==0)return;
-        if(x==n-1&&y==n-1){
-            ans.push_back(out);return;
-        }
-        if(x>=0&y>=0&&x<=n-1&&y<n-1&&m[x][y+1]!=0){
-            out.push_back('R');
-            m[x][y]=0;
-            solve(ans,out,m,n,x,y+1);
-            out.pop_back();
-            m[x][y]=1;
-        }
-        if(x>=0&y>0&&x<n&&y<n&&m[x][y-1]!=0){
-            out.push_back('L');
-            m[x][y]=0;
-            solve(ans,out,m,n,x,y-1);
-            out.pop_back();
-            m[x][y]=1;
-        }
-        if(x>=0&y>=0&&x<n-1&&y<=n-1&&m[x+1][y]!=0){
-            out.push_back('D');
-            m[x][y]=0;
-            solve(ans,out,m,n,x+1,y);
-            out.pop_back();
-            m[x][y]=1;
-        }
-        if(x>0&y>=0&&x<n&&y<n&&m[x-1][y]!=0){
-            out.push_back('U');
-            m[x][y]=0;
-            solve(ans,out,m,n,x-1,y);
-            out.pop_back();
-            m[x][y]=1;
+    
+    void solve(vector<vector<int>> &m , int n , vector<string>&ans,
+    string output , vector<vector<int>>&vis, int i , int j){
+        
+        if( i == n-1 && j == n-1){
+            ans.push_back(output);
+            return;
         }
         
+        
+        // DLRU
+        
+        // DOWN
+        //  i = i+1 and j=j
+        if(i+1 < n && !vis[i+1][j] && m[i+1][j]==1){
+            vis[i][j] = 1;
+            solve(m , n , ans , output+"D" , vis , i+1 , j);
+            vis[i][j] = 0;
+        }
+        
+        // LEFT
+        // i = i and j = j-1
+        if(j-1 >= 0 && !vis[i][j-1] && m[i][j-1]==1){
+            vis[i][j] = 1;
+            solve(m , n , ans , output+"L" , vis , i , j-1);
+            vis[i][j] = 0;
+        }
+        
+        // RIGHT
+        // i = i and j = j+1
+        if(j+1 < n && !vis[i][j+1] && m[i][j+1]==1){
+            vis[i][j] = 1;
+            solve(m , n , ans , output+"R" , vis , i , j+1);
+            vis[i][j] = 0;
+        }
+        
+        // UP
+        // i = i-1 and j = j
+        if(i-1 >= 0 && !vis[i-1][j] && m[i-1][j]==1){
+            vis[i][j] = 1;
+            solve(m , n , ans , output+"U" , vis , i-1 , j);
+            vis[i][j] = 0;
+        }
         
     }
+    
+    
     vector<string> findPath(vector<vector<int>> &m, int n) {
-        // Your code goes here
-        vector<string>ans;
-        string out;
-        solve(ans,out,m,n,0,0);
-        sort(ans.begin(),ans.end());
+        
+        //storing whole output in ans 
+         vector<string>ans;
+        // check for visited or not
+        vector<vector<int>>vis(n , vector<int>(n , 0));
+        string output = "";
+            
+        int i=0 ; 
+        int j=0 ;
+        
+        if(m[0][0] == 1) solve(m , n , ans , output , vis , i , j);
+        
         return ans;
     }
 };
 
     
-
 
 
 //{ Driver Code Starts.
