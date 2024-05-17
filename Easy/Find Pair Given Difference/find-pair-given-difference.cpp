@@ -1,52 +1,67 @@
 //{ Driver Code Starts
-#include<bits/stdc++.h>
- 
-using namespace std; 
+#include <bits/stdc++.h>
+using namespace std;
 
-
-bool findPair(int arr[], int size, int n);
-
-int main()
-{
-    int t;
-    cin>>t;
-    while(t--)
-    {
-        int l,n;
-        cin>>l>>n;
-        int arr[l];
-        for(int i=0;i<l;i++)
-            cin>>arr[i];
-        if(findPair(arr, l, n))
-            cout<<1<<endl;
-        else cout<<"-1"<<endl;
+class Array {
+  public:
+    template <class T>
+    static void input(vector<T> &A, int n) {
+        for (int i = 0; i < n; i++) {
+            scanf("%d ", &A[i]);
+        }
     }
-    
-  
-    return 0;
-}
+
+    template <class T>
+    static void print(vector<T> &A) {
+        for (int i = 0; i < A.size(); i++) {
+            cout << A[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+
 // } Driver Code Ends
 
+class Solution {
+  public:
+    int findPair(int n, int x, vector<int> &arr) {
+        // code here
+         sort(arr.begin(),arr.end());
+        int first=0;
+        int moving=1;
+        while(moving<n){
+            if(first==moving) moving++;
+            else if(  abs(arr[first]-arr[moving])<x  ) moving++;
+            else if(  abs(arr[first]-arr[moving])>x  ) first++;
+            else return 1;
+        }
+        return -1;
+    }
+};
 
-bool findPair(int arr[], int size, int n){
-    //code
-    unordered_map<int,int>m;
-    for(int i=0;i<size;i++){
-        m[arr[i]]++;
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    scanf("%d ", &t);
+    while (t--) {
+
+        int n;
+        scanf("%d", &n);
+
+        int x;
+        scanf("%d", &x);
+
+        vector<int> arr(n);
+        Array::input(arr, n);
+
+        Solution obj;
+        int res = obj.findPair(n, x, arr);
+
+        cout << res << endl;
     }
-    if(n==0){
-        for(auto it:m){
-       if(m[it.second]>1)return true; 
-    }
-    }else{
-        for(auto it:m){
-       if(m.find(it.first+n)!=m.end()){
-           return true;
-       } 
-    }
-    }
-    
-    
-    return false;
-    
 }
+
+// } Driver Code Ends
